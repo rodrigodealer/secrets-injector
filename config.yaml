@@ -1,0 +1,8 @@
+config:
+    provider: 
+        name: vault
+        token: mytoken
+        url: 
+    environment:
+      - ONE_ENV=fake
+      - SEC_ENV=something

@@ -647,7 +647,7 @@ dependencies = [
  "indexmap",
  "log 0.4.8",
  "slab 0.4.2",
- "tokio 0.2.17",
+ "tokio 0.2.18",
  "tokio-util",
 ]
 
@@ -820,7 +820,7 @@ dependencies = [
  "net2",
  "pin-project",
  "time 0.1.42",
- "tokio 0.2.17",
+ "tokio 0.2.18",
  "tower-service",
  "want 0.3.0",
 ]
@@ -847,7 +847,7 @@ dependencies = [
  "bytes 0.5.4",
  "hyper 0.13.4",
  "native-tls",
- "tokio 0.2.17",
+ "tokio 0.2.18",
  "tokio-tls",
 ]
 
@@ -924,6 +924,12 @@ name = "libc"
 version = "0.2.68"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dea0c0405123bba743ee3f91f49b1c7cfb684eef0da0a50110f758ccf24cdff0"
+
+[[package]]
+name = "linked-hash-map"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ae91b68aebc4ddb91978b11a1b02ddd8602a05ec19002801c5666000e05e0f83"
 
 [[package]]
 name = "lock_api"
@@ -1593,7 +1599,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "tokio 0.2.17",
+ "tokio 0.2.18",
  "xml-rs",
 ]
 
@@ -1613,7 +1619,7 @@ dependencies = [
  "serde",
  "serde_json",
  "shlex",
- "tokio 0.2.17",
+ "tokio 0.2.18",
  "zeroize",
 ]
 
@@ -1653,7 +1659,7 @@ dependencies = [
  "serde",
  "sha2",
  "time 0.2.9",
- "tokio 0.2.17",
+ "tokio 0.2.18",
 ]
 
 [[package]]
@@ -1734,6 +1740,9 @@ version = "0.1.0"
 dependencies = [
  "hashicorp_vault",
  "rusoto_secretsmanager",
+ "serde",
+ "serde_derive",
+ "serde_yaml",
 ]
 
 [[package]]
@@ -1815,6 +1824,18 @@ dependencies = [
  "itoa",
  "serde",
  "url 1.7.2",
+]
+
+[[package]]
+name = "serde_yaml"
+version = "0.8.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "691b17f19fc1ec9d94ec0b5864859290dff279dbd7b03f017afda54eb36c3c35"
+dependencies = [
+ "dtoa",
+ "linked-hash-map",
+ "serde",
+ "yaml-rust",
 ]
 
 [[package]]
@@ -2092,9 +2113,9 @@ dependencies = [
 
 [[package]]
 name = "tokio"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39fb9142eb6e9cc37f4f29144e62618440b149a138eee01a7bbe9b9226aaf17c"
+checksum = "34ef16d072d2b6dc8b4a56c70f5c5ced1a37752116f8e7c1e80c659aa7cb6713"
 dependencies = [
  "bytes 0.5.4",
  "fnv",
@@ -2313,7 +2334,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7bde02a3a5291395f59b06ec6945a3077602fac2b07eeeaf0dee2122f3619828"
 dependencies = [
  "native-tls",
- "tokio 0.2.17",
+ "tokio 0.2.18",
 ]
 
 [[package]]
@@ -2360,7 +2381,7 @@ dependencies = [
  "futures-sink",
  "log 0.4.8",
  "pin-project-lite",
- "tokio 0.2.17",
+ "tokio 0.2.18",
 ]
 
 [[package]]
@@ -2622,6 +2643,15 @@ name = "xml-rs"
 version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2bb76e5c421bbbeb8924c60c030331b345555024d56261dae8f3e786ed817c23"
+
+[[package]]
+name = "yaml-rust"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "65923dd1784f44da1d2c3dbbc5e822045628c590ba72123e1c73d3c230c4434d"
+dependencies = [
+ "linked-hash-map",
+]
 
 [[package]]
 name = "zeroize"

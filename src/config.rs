@@ -22,11 +22,11 @@ pub fn load_config() -> Option<Config> {
             file.read_to_string(&mut content).unwrap();
 
             let application_data: Config = serde_yaml::from_str(&content).unwrap();
-            return Some(application_data)
+            Some(application_data)
         }
         Err(error) => {
             println!("There is an error {}: {}", filename, error);
-            return None
+            None
         }
     }
 }

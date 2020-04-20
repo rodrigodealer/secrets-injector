@@ -8,7 +8,7 @@ pub struct Config {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Data {
-    provider: Provider,
+    pub provider: Provider,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub environment: Option<Vec<String>>,
@@ -20,8 +20,8 @@ pub fn load_config(filename: &str) -> Option<Config> {
             let mut content = String::new();
             file.read_to_string(&mut content).unwrap();
 
-            let application_data: Config = serde_yaml::from_str(&content).unwrap();
-            Some(application_data)
+            let app_config: Config = serde_yaml::from_str(&content).unwrap();
+            Some(app_config)
         }
         Err(error) => {
             println!("There is an error {}: {}", filename, error);
@@ -31,10 +31,10 @@ pub fn load_config(filename: &str) -> Option<Config> {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-struct Provider {
-    name: String,
-    token: String,
-    url: String,
+pub struct Provider {
+    pub name: String,
+    pub token: String,
+    pub url: String,
 }
 
 #[cfg(test)]

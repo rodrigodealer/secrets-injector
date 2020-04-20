@@ -14,8 +14,7 @@ pub struct Data {
     pub environment: Option<Vec<String>>,
 }
 
-pub fn load_config() -> Option<Config> {
-    let filename = "config.yaml";
+pub fn load_config(filename: &str) -> Option<Config> {
     match File::open(filename) {
         Ok(mut file) => {
             let mut content = String::new();
@@ -44,7 +43,7 @@ mod tests {
 
     #[test]
     fn test_it_loads_config_file() {
-        let config = load_config();
+        let config = load_config("config.yaml");
 
         assert_eq!(config.is_some(), true);
         assert_eq!(config.unwrap().config.environment.unwrap().len(), 2);

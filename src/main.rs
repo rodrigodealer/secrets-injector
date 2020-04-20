@@ -6,7 +6,8 @@ extern crate serde_yaml;
 mod config;
 
 fn main() {
-    config::load_config();
+    let filename = "config.yaml";
+    config::load_config(filename);
 }
 
 fn set_var(name: &str, value: &str) {

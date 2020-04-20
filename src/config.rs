@@ -14,6 +14,13 @@ pub struct Data {
     pub environment: Option<Vec<String>>,
 }
 
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct Provider {
+    pub name: String,
+    pub token: String,
+    pub url: String,
+}
+
 pub fn load_config(filename: &str) -> Option<Config> {
     match File::open(filename) {
         Ok(mut file) => {
@@ -23,18 +30,8 @@ pub fn load_config(filename: &str) -> Option<Config> {
             let app_config: Config = serde_yaml::from_str(&content).unwrap();
             Some(app_config)
         }
-        Err(error) => {
-            println!("There is an error {}: {}", filename, error);
-            None
-        }
+        Err(error) => panic!("There is an error {}: {}", filename, error)
     }
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub struct Provider {
-    pub name: String,
-    pub token: String,
-    pub url: String,
 }
 
 #[cfg(test)]
@@ -47,5 +44,11 @@ mod tests {
 
         assert_eq!(config.is_some(), true);
         assert_eq!(config.unwrap().config.environment.unwrap().len(), 2);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_it_doesnt_load_config_file() {
+        load_config("configs.yaml");
     }
 }

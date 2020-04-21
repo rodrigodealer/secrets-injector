@@ -40,13 +40,6 @@ mod tests {
         let environment = vec!["ONE_ENV=fake".to_string(), "TWO_ENV=not_fake".to_string()];
         let config = Config{config: Data{ environment: Some(environment), provider: Provider{ name: "Name".to_string(), token: "".to_string(), url: "".to_string() }}};
 
-        // let mut envs = HashMap::new();
-        // let bla = config.config.environment.unwrap();
-        // for item in bla.iter() {
-        //     let bla : Vec<&str> = item.split("=").collect();
-        //     envs.insert(bla[0].to_string(), bla[1].to_string());
-        // }
-
         let envs = get_envs(config);
 
         assert_eq!(2, envs.len());

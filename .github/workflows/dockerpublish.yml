@@ -48,5 +48,4 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
 
-          docker tag image rodrigodealer/secrets-injector:$VERSION
           docker push rodrigodealer/secrets-injector:$VERSION

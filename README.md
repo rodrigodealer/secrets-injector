@@ -1,3 +1,5 @@
+![Docker](https://github.com/rodrigodealer/secrets-injector/workflows/Docker/badge.svg)
+![Rust](https://github.com/rodrigodealer/secrets-injector/workflows/Rust/badge.svg)
 # secrets-injector
 
 Application to deal with secrets from various providers and inject them into your application using environment variables.

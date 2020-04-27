@@ -5,7 +5,10 @@ mod vault;
 pub fn call_agent(config: Option<Config>) -> String {
     match config {
         Some(c) => match c.config.provider.name.as_ref() {
-            "vault" => vault::init(c.config),
+            "vault" => {
+                println!("Got: {}", c.config.provider.name);
+                vault::get_envs(c)
+            },
             _ => panic!("Got something else: {}", c.config.provider.name)
         }
         None => panic!("Unknown provider")

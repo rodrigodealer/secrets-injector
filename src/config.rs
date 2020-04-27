@@ -18,7 +18,7 @@ pub struct Data {
 pub struct Provider {
     pub name: String,
     pub token: String,
-    pub url: String,
+    pub address: String,
 }
 
 pub fn load_config(filename: &str) -> Option<Config> {

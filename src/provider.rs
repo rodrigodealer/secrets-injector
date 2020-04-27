@@ -34,8 +34,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_it_matches_panic() {
-        let config = None;
-        call_agent(config);
+        call_agent(None);
     }
 
     #[test]

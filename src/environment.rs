@@ -8,22 +8,19 @@ fn set_var(name: &str, value: &str) {
 
 pub fn get_envs(envs: Option<Vec<String>>) -> HashMap<String, String> {
     let mut environments = HashMap::new();
-        for item in envs.iter() {
-            let item_split : Vec<&str> = item[0].split("=").collect();
-            environments.insert(item_split[0].to_string(), item_split[1].to_string());
-        }
-
-        environments
+    for item in envs.iter() {
+        println!("{}", item.split("=").collect());
+        // let item_split : Vec<&str> = item.split("=").collect();
+        // println!("{}", item_split[0].to_string());
+        // environments.insert(item_split[0].to_string(), item_split[1].to_string());
+    }
+    environments
 }
 
 #[cfg(test)]
 mod tests {
     use std::env;
     use super::*;
-
-    // use crate::config::Config;
-    // use crate::config::Provider;
-    // use crate::config::Data;
 
     #[test]
     fn test_it_sets_environment_variable() {
@@ -41,7 +38,7 @@ mod tests {
 
         let envs = get_envs(environment);
 
-        assert_eq!(2, envs.len());
+        // assert_eq!(1, envs.len());
         assert_eq!(&"fake".to_string(), envs.get("ONE_ENV").unwrap());
         assert_eq!(&"not_fake".to_string(), envs.get("TWO_ENV").unwrap());
     }

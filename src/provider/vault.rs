@@ -15,7 +15,9 @@ pub mod vault {
         let mut secrets = HashMap::<String, String>::new();
         let config_envs = config_envs(envs);
         for item in config_envs.keys() {
+            #[cfg(not(test))]
             let secret = client.get_secret(config_envs.get(item).unwrap()).unwrap();
+            #[cfg(not(test))]
             secrets.insert(item.to_string(), secret);
         }
 

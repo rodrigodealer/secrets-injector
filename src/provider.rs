@@ -7,7 +7,7 @@ pub fn call_agent(config: Option<Config>) -> String {
         Some(c) => match c.config.provider.name.as_ref() {
             "vault" => {
                 println!("Got: {}", c.config.provider.name);
-                vault::get_envs(c)
+                vault::vault::get_envs(c)
             },
             _ => panic!("Got something else: {}", c.config.provider.name)
         }
@@ -40,7 +40,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_it_matches_panic_for_unknown_provider() {
-        let config = Config{config: Data{ environment: None, provider: Provider{ name: "Name".to_string(), token: "".to_string(), url: "".to_string() }}};
+        let config = Config{config: Data{ environment: None, provider: Provider{ name: "Name".to_string(), token: "".to_string(), address: "".to_string() }}};
         call_agent(Some(config));
     }
 }

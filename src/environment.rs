@@ -38,7 +38,7 @@ mod tests {
     #[test]
     fn test_it_matches_vault() {
         let environment = vec!["ONE_ENV=fake".to_string(), "TWO_ENV=not_fake".to_string()];
-        let config = Config{config: Data{ environment: Some(environment), provider: Provider{ name: "Name".to_string(), token: "".to_string(), url: "".to_string() }}};
+        let config = Config{config: Data{ environment: Some(environment), provider: Provider{ name: "Name".to_string(), token: "".to_string(), address: "".to_string() }}};
 
         let envs = get_envs(config);
 

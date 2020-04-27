@@ -13,8 +13,8 @@ pub mod vault {
 
         for item in c.config.environment.unwrap() {
             let vec: Vec<&str> = item.split('=').collect();
-            let var_name = vec[0].to_string();
-            let secret_name = vec[1];
+            let var_name = vec.first().unwrap().to_string();
+            let secret_name = vec.last().unwrap();
             #[cfg(not(test))]
             let secret = client.get_secret(secret_name).unwrap();
             #[cfg(not(test))]

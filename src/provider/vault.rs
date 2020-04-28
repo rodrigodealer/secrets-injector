@@ -16,12 +16,12 @@ impl Vault {
         let host : &str = &c.config.provider.address;
         let envs = c.config.environment;
         #[cfg(not(test))]
-        let client = Client::get_client(host, &c.config.provider.token);
+        let conn = Client {}.get_client(host, &c.config.provider.token);
         let mut secrets = HashMap::<String, String>::new();
         let config_envs = config_envs(envs);
         for item in config_envs.keys() {
             #[cfg(not(test))]
-            let secret = client.get_secret(config_envs.get(item).unwrap()).unwrap();
+            let secret = conn.get_secret(config_envs.get(item).unwrap()).unwrap();
             #[cfg(not(test))]
             secrets.insert(item.to_string(), secret);
         }
@@ -34,8 +34,9 @@ impl Vault {
     }
 }
 
+#[automock]
 impl Client {
-    pub fn get_client(host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
+    pub fn get_client(&self, host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
         return vault_api::Client::new(host, token).unwrap();
     }
 }
@@ -57,11 +58,10 @@ impl Client {
 
 //     #[test]
 //     fn mytest() {
-//         let mut mock = MockVault::new();
-//         mock.expect_foo()
-//             .with(eq("bla".to_string()))
+//         let mut mock = MockClient::new();
+//         mock.expect_get_client()
 //             .times(1)
-//             .returning(|x| "bla".to_string());
+//             .returning(|x| None );
 //         assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
 //     }
 // }

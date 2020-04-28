@@ -1,12 +1,15 @@
+extern crate hashicorp_vault as vault_api;
+use crate::config::Config;
+use std::collections::HashMap;
+use mockall::*;
+use mockall::predicate::*;
 
+use crate::environment::get_envs as config_envs;
 
-pub mod vault {
-    extern crate hashicorp_vault as vault_api;
-    use crate::config::Config;
-    use std::collections::HashMap;
+pub struct Vault{}
 
-    use crate::environment::get_envs as config_envs;
-
+#[automock]
+impl Vault {
     pub fn get_envs(c: Config) -> String {
         let host : &str = &c.config.provider.address;
         let envs = c.config.environment;
@@ -28,3 +31,29 @@ pub mod vault {
         "vault".to_string()
     }
 }
+
+// #[cfg(test)]
+// use mockall::{automock, mock, predicate::*};
+
+// #[cfg_attr(test, automock)]
+// trait Vault {
+//     fn foo(&self, x: String) -> String {
+//         "bla".to_string()
+//     }
+// }
+
+
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+
+//     #[test]
+//     fn mytest() {
+//         let mut mock = MockVault::new();
+//         mock.expect_foo()
+//             .with(eq("bla".to_string()))
+//             .times(1)
+//             .returning(|x| "bla".to_string());
+//         assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
+//     }
+// }

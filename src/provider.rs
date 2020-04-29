@@ -7,7 +7,8 @@ pub fn call_agent(config: Option<Config>) -> String {
         Some(c) => match c.config.provider.name.as_ref() {
             "vault" => {
                 println!("Got: {}", c.config.provider.name);
-                vault::Vault::get_envs(c)
+                let client = vault::Client::new(c.config.provider);
+                vault::Vault::get_envs(client, c.config.environment)
             },
             _ => panic!("Got something else: {}", c.config.provider.name)
         }

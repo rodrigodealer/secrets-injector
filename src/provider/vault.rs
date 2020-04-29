@@ -1,5 +1,5 @@
 extern crate hashicorp_vault as vault_api;
-use crate::config::Config;
+use crate::config::Provider;
 use std::collections::HashMap;
 use mockall::*;
 use mockall::predicate::*;
@@ -8,15 +8,15 @@ use crate::environment::get_envs as config_envs;
 
 pub struct Vault{}
 
-pub struct Client{}
+pub struct Client{
+    provider: Provider
+}
 
 #[automock]
 impl Vault {
-    pub fn get_envs(c: Config) -> String {
-        let host : &str = &c.config.provider.address;
-        let envs = c.config.environment;
+    pub fn get_envs(client: Client, envs: Option<Vec<String>>) -> String {
         #[cfg(not(test))]
-        let conn = Client::new(host, &c.config.provider.token);
+        let conn = client.get_client();
         let mut secrets = HashMap::<String, String>::new();
         let config_envs = config_envs(envs);
         for item in config_envs.keys() {
@@ -36,11 +36,13 @@ impl Vault {
 
 #[automock]
 impl Client {
-    pub fn new(host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
-        return Client{}.get_client(host, token)
+    pub fn new(p: Provider) -> Client {
+        return Client{provider: p}
     }
 
-    fn get_client(&self, host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
+    fn get_client(&self) -> vault_api::Client<vault_api::client::TokenData> {
+        let host : &str = &self.provider.address;
+        let token : &str = &self.provider.token;
         return vault_api::Client::new(host, token).unwrap();
     }
 }

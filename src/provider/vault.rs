@@ -16,7 +16,7 @@ impl Vault {
         let host : &str = &c.config.provider.address;
         let envs = c.config.environment;
         #[cfg(not(test))]
-        let conn = Client {}.get_client(host, &c.config.provider.token);
+        let conn = Client::new(host, &c.config.provider.token);
         let mut secrets = HashMap::<String, String>::new();
         let config_envs = config_envs(envs);
         for item in config_envs.keys() {
@@ -36,7 +36,11 @@ impl Vault {
 
 #[automock]
 impl Client {
-    pub fn get_client(&self, host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
+    pub fn new(host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
+        return Client{}.get_client(host, token)
+    }
+
+    fn get_client(&self, host: &str, token: &str) -> vault_api::Client<vault_api::client::TokenData> {
         return vault_api::Client::new(host, token).unwrap();
     }
 }

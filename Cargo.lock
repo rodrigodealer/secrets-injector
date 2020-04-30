@@ -1135,6 +1135,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "mocktopus"
+version = "0.7.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6bb802d95931d1426546328523487423c2bd44e0fca457d4ac063ec3150a681f"
+dependencies = [
+ "mocktopus_macros",
+]
+
+[[package]]
+name = "mocktopus_macros"
+version = "0.7.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "757ebe7dc317c368dba9dcc319266416e48272292ed86814478f66308119c2e9"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "native-tls"
 version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1818,6 +1838,7 @@ version = "0.1.0"
 dependencies = [
  "hashicorp_vault",
  "mockall",
+ "mocktopus",
  "rusoto_secretsmanager",
  "serde",
  "serde_derive",

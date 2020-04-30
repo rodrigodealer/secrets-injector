@@ -3,13 +3,16 @@ use crate::config::Provider;
 use std::collections::HashMap;
 use mockall::*;
 use mockall::predicate::*;
+#[cfg(test)]
+use mocktopus::macros::*;
 
 use crate::environment::get_envs as config_envs;
 
 pub struct Vault{}
 
 pub struct Client{
-    provider: Provider
+    provider: Provider,
+    connection: Option<vault_api::Client<vault_api::client::TokenData>>
 }
 
 #[automock]
@@ -34,40 +37,63 @@ impl Vault {
     }
 }
 
-#[automock]
+#[mockable]
 impl Client {
     pub fn new(p: Provider) -> Client {
-        return Client{provider: p}
+        return Client{provider: p, connection: None}
     }
 
-    fn get_client(&self) -> vault_api::Client<vault_api::client::TokenData> {
+    fn get_client(&mut self) -> &Client {
         let host : &str = &self.provider.address;
         let token : &str = &self.provider.token;
-        return vault_api::Client::new(host, token).unwrap();
+        self.connection = Some(vault_api::Client::new(host, token).unwrap());
+        return self;
+    }
+
+    fn foo(&self, bla: String) -> String {
+        "bla".to_string()
     }
 }
 
-// #[cfg(test)]
-// use mockall::{automock, mock, predicate::*};
-
-// #[cfg_attr(test, automock)]
-// trait Vault {
-//     fn foo(&self, x: String) -> String {
-//         "bla".to_string()
-//     }
-// }
+#[cfg(doc)]
 
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
+#[cfg(test)]
+use mockall::{automock, mock, predicate::*};
 
-//     #[test]
-//     fn mytest() {
-//         let mut mock = MockClient::new();
-//         mock.expect_get_client()
-//             .times(1)
-//             .returning(|x| None );
-//         assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
-//     }
-// }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use mocktopus::mocking::*;
+
+    #[test]
+    fn my_test() {
+        let client : &Client = &Client{connection: None, provider: Provider{name: "vault".to_string(), token: "bla".to_string(), address: "blu".to_string()}};
+
+        Client::get_client.mock_safe(|client| {
+            MockResult::Return(client)
+        });
+
+    }
+
+    // #[test]
+    // fn mytest() {
+    //     let provider = Provider{name: "vault".to_string(), token: "bla".to_string(), address: "blu".to_string()};
+    //     let mut mock = MockClient::new(provider);
+    //     mock.expect_foo()
+    //         .times(1)
+    //         .returning(|x| None );
+    //     assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
+    // }
+
+    // #[test]
+    // fn mytest() {
+    //     let provider = Provider{name: "vault".to_string(), token: "bla".to_string(), address: "blu".to_string()};
+    //     let mut mock = MockClient::new(provider);
+    //     mock.expect_foo()
+    //         .with(eq("bla".to_string()))
+    //         .times(1)
+    //         .returning(|x| None );
+    //     assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
+    // }
+}

@@ -1,7 +1,7 @@
 config:
     provider:
         name: vault
-        token: s.kJeKLfTtFfOM2yxXzzYQAxtF
+        token: s.7LXjNtEutLhDwmW8Ff0VuTRt
         address: "http://localhost:8200"
     environment:
       - ONE_ENV=hello_set

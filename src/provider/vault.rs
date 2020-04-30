@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use mocktopus::macros::*;
 
 use crate::environment::get_envs as config_envs;
+use crate::environment::set_vars;
 
 pub struct Vault{}
 
@@ -27,9 +28,7 @@ impl Vault {
             }
         }
 
-        for (var, value) in secrets.iter() {
-            println!("Calling {}: {}", var, value);
-        }
+        set_vars(secrets);
 
         "vault".to_string()
     }

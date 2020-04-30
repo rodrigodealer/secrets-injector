@@ -9,6 +9,8 @@ pub fn set_vars(map: HashMap<String, String>) {
     for item in map.iter() {
         set_var(item.0, item.1);
     }
+
+    println!("Setting {} variables to environment", map.len());
 }
 
 pub fn get_envs(env_vars: Option<Vec<String>>) -> HashMap<String, String> {

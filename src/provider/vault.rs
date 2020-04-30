@@ -1,9 +1,6 @@
 extern crate hashicorp_vault as vault_api;
 use crate::config::Provider;
 use std::collections::HashMap;
-use mockall::*;
-use mockall::predicate::*;
-#[cfg(test)]
 use mocktopus::macros::*;
 
 use crate::environment::get_envs as config_envs;
@@ -15,7 +12,6 @@ pub struct Client{
     connection: Option<vault_api::Client<vault_api::client::TokenData>>
 }
 
-#[automock]
 impl Vault {
     pub fn get_envs(client: Client, envs: Option<Vec<String>>) -> String {
         let conn = client.get_client();

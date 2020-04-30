@@ -19,18 +19,9 @@ pub fn call_agent(config: Option<Config>) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::load_config;
     use crate::config::Config;
     use crate::config::Provider;
     use crate::config::Data;
-
-    #[test]
-    fn test_it_matches_vault() {
-        let config = load_config("config.yaml");
-        let agent = call_agent(config);
-
-        assert_eq!("vault", agent);
-    }
 
     #[test]
     #[should_panic]

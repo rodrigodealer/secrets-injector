@@ -18,15 +18,17 @@ pub struct Client{
 #[automock]
 impl Vault {
     pub fn get_envs(client: Client, envs: Option<Vec<String>>) -> String {
-        #[cfg(not(test))]
         let conn = client.get_client();
         let mut secrets = HashMap::<String, String>::new();
         let config_envs = config_envs(envs);
         for item in config_envs.keys() {
-            #[cfg(not(test))]
-            let secret = conn.get_secret(config_envs.get(item).unwrap()).unwrap();
-            #[cfg(not(test))]
-            secrets.insert(item.to_string(), secret);
+            match &conn.connection {
+                Some(connection) => {
+                    let secret = connection.get_secret(config_envs.get(item).unwrap()).unwrap();
+                    secrets.insert(item.to_string(), secret);
+                }
+                _ => println!("No connection found")
+            }
         }
 
         for (var, value) in secrets.iter() {
@@ -43,15 +45,11 @@ impl Client {
         return Client{provider: p, connection: None}
     }
 
-    fn get_client(&mut self) -> &Client {
+    fn get_client(mut self) -> Client {
         let host : &str = &self.provider.address;
         let token : &str = &self.provider.token;
         self.connection = Some(vault_api::Client::new(host, token).unwrap());
         return self;
-    }
-
-    fn foo(&self, bla: String) -> String {
-        "bla".to_string()
     }
 }
 
@@ -67,33 +65,19 @@ mod tests {
     use mocktopus::mocking::*;
 
     #[test]
-    fn my_test() {
-        let client : &Client = &Client{connection: None, provider: Provider{name: "vault".to_string(), token: "bla".to_string(), address: "blu".to_string()}};
+    fn test_it_matches_vault() {
+        let client : Client = Client{connection: None, provider: Provider{name: "vaulty".to_string(), token: "bla".to_string(), address: "blu".to_string()}};
+        let environment = Some(vec!["ONE_ENV=fake".to_string(), "TWO_ENV=not_fake".to_string()]);
 
         Client::get_client.mock_safe(|client| {
             MockResult::Return(client)
         });
 
+        let expected = "vault".to_string();
+
+        let result = Vault::get_envs(client, environment);
+
+        assert_eq!(expected, result);
+
     }
-
-    // #[test]
-    // fn mytest() {
-    //     let provider = Provider{name: "vault".to_string(), token: "bla".to_string(), address: "blu".to_string()};
-    //     let mut mock = MockClient::new(provider);
-    //     mock.expect_foo()
-    //         .times(1)
-    //         .returning(|x| None );
-    //     assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
-    // }
-
-    // #[test]
-    // fn mytest() {
-    //     let provider = Provider{name: "vault".to_string(), token: "bla".to_string(), address: "blu".to_string()};
-    //     let mut mock = MockClient::new(provider);
-    //     mock.expect_foo()
-    //         .with(eq("bla".to_string()))
-    //         .times(1)
-    //         .returning(|x| None );
-    //     assert_eq!("bla".to_string(), mock.foo("bla".to_string()));
-    // }
 }

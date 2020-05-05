@@ -1,3 +1,13 @@
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_yaml;
+
+mod config;
+mod provider;
+mod environment;
+
 fn main() {
-    println!("Hello, world!");
+    let filename = "config.yaml";
+    let config = config::load_config(filename);
+    provider::call_agent(config);
 }

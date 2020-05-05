@@ -61,7 +61,7 @@ mod tests {
 
     #[test]
     fn test_it_matches_vault() {
-        let client : Client = Client{connection: None, provider: Provider{name: "vaulty".to_string(), token: "bla".to_string(), address: "blu".to_string()}};
+        let client : Client = Client{connection: None, provider: Provider{name: "vaulty".to_string(), token: "bla".to_string(), address: "blu".to_string(), access_key: None, secret_key: None}};
         let environment = Some(vec!["ONE_ENV=fake".to_string(), "TWO_ENV=not_fake".to_string()]);
 
         Client::get_client.mock_safe(|client| {

@@ -19,6 +19,8 @@ pub struct Provider {
     pub name: String,
     pub token: String,
     pub address: String,
+    pub access_key: Option<String>,
+    pub secret_key: Option<String>,
 }
 
 pub fn load_config(filename: &str) -> Option<Config> {

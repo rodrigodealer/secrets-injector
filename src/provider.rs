@@ -32,7 +32,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_it_matches_panic_for_unknown_provider() {
-        let config = Config{config: Data{ environment: None, provider: Provider{ name: "Name".to_string(), token: "".to_string(), address: "".to_string() }}};
+        let config = Config{config: Data{ environment: None, provider: Provider{ name: "Name".to_string(), token: "".to_string(), address: "".to_string(), access_key: None, secret_key: None}}};
         call_agent(Some(config));
     }
 }

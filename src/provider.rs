@@ -1,6 +1,7 @@
 use crate::config::Config;
 
 mod vault;
+mod parameter_store;
 
 pub fn call_agent(config: Option<Config>) -> String {
     match config {
@@ -12,6 +13,8 @@ pub fn call_agent(config: Option<Config>) -> String {
             },
             "parameter_store" => {
                 println!("Got: {}", c.config.provider.name);
+                let client = parameter_store::Client::new(c.config.provider);
+                parameter_store::ParameterStore::get_envs(c.config.environment)
             }
             _ => panic!("Got something else: {}", c.config.provider.name)
         }

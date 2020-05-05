@@ -10,6 +10,9 @@ pub fn call_agent(config: Option<Config>) -> String {
                 let client = vault::Client::new(c.config.provider);
                 vault::Vault::get_envs(client, c.config.environment)
             },
+            "parameter_store" => {
+                println!("Got: {}", c.config.provider.name);
+            }
             _ => panic!("Got something else: {}", c.config.provider.name)
         }
         None => panic!("Unknown provider")
